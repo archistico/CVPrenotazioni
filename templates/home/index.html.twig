@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Movimento - Nuovo
-{% endblock %}
+{% block title %}Nuova prenotazione{% endblock %}
 
 {% block body %}
 	<div class="row">
 		<div class="col-12">
-			<h1>Casino de la Vallée</h1>
-			<h2>Prenotazione porteur</h2>
+			<h3><img src="{{ asset('images/logo.png') }}" alt="Logo" height="48" class="me-3"> Crea una nuova prenotazione</h3>
+			<hr>
 		</div>
 	</div>
 
@@ -123,8 +122,8 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12 mt-2">
-			<button type="submit" class="btn btn-primary btn-square w-100">SALVA</button>
+		<div class="col-md-12 mt-4">
+			<button type="submit" class="btn btn-primary w-100">SALVA</button>
 		</div>
 	</div>
 	{{ form_end(form) }}
