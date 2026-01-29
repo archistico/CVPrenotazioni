@@ -1,20 +1,132 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Movimento - Nuovo
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="row">
+		<div class="col-12">
+			<h1>Casino de la Vallée</h1>
+			<h2>Prenotazione porteur</h2>
+		</div>
+	</div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+	{{ form_start(form) }}
+    <div class="row">
+		<div class="col-12 mt-2">
+			{{ form_label(form.fkPorteur) }}
+			{{ form_widget(form.fkPorteur) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.fkPorteur) }}
+			</div>
+		</div>
+	</div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/coder/workout/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/home/coder/workout/templates/home/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="row">
+		<div class="col-12 mt-2">
+			{{ form_label(form.Cliente) }}
+			{{ form_widget(form.Cliente) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Cliente) }}
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6 mt-2">
+			{{ form_label(form.Dal) }}
+			{{ form_widget(form.Dal, {'value' : 'now'|date('Y-m-d', "Europe/Rome")}) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Dal) }}
+			</div>
+		</div>
+        <div class="col-md-6 mt-2">
+			{{ form_label(form.Al) }}
+			{{ form_widget(form.Al, {'value' : 'now'|date('Y-m-d', "Europe/Rome")}) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Al) }}
+			</div>
+		</div>
+	</div>
+
+    <div class="row">
+		<div class="col-md-4 mt-2">
+			{{ form_label(form.PaxAdulti) }}
+			{{ form_widget(form.PaxAdulti) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.PaxAdulti) }}
+			</div>
+		</div>
+        <div class="col-md-4 mt-2">
+			{{ form_label(form.PaxBambini) }}
+			{{ form_widget(form.PaxBambini) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.PaxBambini) }}
+			</div>
+		</div>
+        <div class="col-md-4 mt-2">
+			{{ form_label(form.PaxAdolescenti) }}
+			{{ form_widget(form.PaxAdolescenti) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.PaxAdolescenti) }}
+			</div>
+		</div>
+	</div>
+	
+    <div class="row">
+		<div class="col-md-12 mt-2">
+			{{ form_label(form.fkTipologiaOspitalita) }}
+			{{ form_widget(form.fkTipologiaOspitalita) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.fkTipologiaOspitalita) }}
+			</div>
+		</div>
+	</div>
+
+    <div class="row">
+		<div class="col-md-12 mt-2">
+			{{ form_label(form.fkAlbergo) }}
+			{{ form_widget(form.fkAlbergo) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.fkAlbergo) }}
+			</div>
+		</div>
+	</div>
+
+    <div class="row">
+		<div class="col-md-12 mt-2">
+			{{ form_label(form.fkTipologiaSistemazione) }}
+			{{ form_widget(form.fkTipologiaSistemazione) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.fkTipologiaSistemazione) }}
+			</div>
+		</div>
+	</div>
+
+    <div class="row">
+		<div class="col-md-12 mt-2">
+			{{ form_label(form.fkTariffa) }}
+			{{ form_widget(form.fkTariffa) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.fkTariffa) }}
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 mt-2">
+			{{ form_label(form.Note) }}
+			{{ form_widget(form.Note) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Note) }}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 mt-2">
+			<button type="submit" class="btn btn-primary btn-square w-100">SALVA</button>
+		</div>
+	</div>
+	{{ form_end(form) }}
+
 {% endblock %}
