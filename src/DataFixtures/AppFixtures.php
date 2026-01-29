@@ -11,19 +11,19 @@ class AppFixtures extends Fixture
     {
         // Porteur
         $porteur1 = new \App\Entity\Porteur();
-        $porteur1->setDescrizione("CPConsulting");
+        $porteur1->setDescrizione("Porteur 1");
         $porteur1->setPIN("1111");
         $porteur1->setObsoleto(false);
         $manager->persist($porteur1);
 
         $porteur2 = new \App\Entity\Porteur();
-        $porteur2->setDescrizione("Cicero");
+        $porteur2->setDescrizione("Porteur 2");
         $porteur2->setPIN("2222");
         $porteur2->setObsoleto(false);
         $manager->persist($porteur2);
 
         $porteur3 = new \App\Entity\Porteur();
-        $porteur3->setDescrizione("Galantino");
+        $porteur3->setDescrizione("Porteur 3");
         $porteur3->setPIN("3333");
         $porteur3->setObsoleto(false);
         $manager->persist($porteur3);
