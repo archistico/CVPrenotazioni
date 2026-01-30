@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class PrenotazioneType extends AbstractType
@@ -30,6 +31,13 @@ class PrenotazioneType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'class' => 'form-select',
+                ]
+            ])
+            ->add('Pin', PasswordType::class, [
+                'label' => 'Pin',
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
                 ]
             ])
             ->add('Cliente', TextType::class, [

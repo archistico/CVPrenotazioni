@@ -11,6 +11,7 @@ parameters:
     app.mail_to: '%env(MAIL_TO)%'
     app.agente_secret: '%env(AGENTE_SECRET)%'
     app.agente_id: '%env(string:AGENTE_ID)%'
+    app.pin_pepper: '%env(PIN_PEPPER)%'
 
 services:
     # default configuration for services in *this* file
@@ -39,3 +40,7 @@ services:
         arguments:
             $agenteSecret: '%app.agente_secret%'
             $agenteId: '%app.agente_id%'
+
+    App\Security\PinHasher:
+        arguments:
+            $pepper: '%app.pin_pepper%'

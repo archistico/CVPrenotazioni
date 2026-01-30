@@ -12,11 +12,18 @@
 
 	{{ form_start(form) }}
     <div class="row">
-		<div class="col-12 mt-2">
+		<div class="col-8 mt-2">
 			{{ form_label(form.fkPorteur) }}
 			{{ form_widget(form.fkPorteur) }}
 			<div class="text-red li-senza-pallino">
 				{{ form_errors(form.fkPorteur) }}
+			</div>
+		</div>
+		<div class="col-4 mt-2">
+			{{ form_label(form.Pin) }}
+			{{ form_widget(form.Pin) }}
+			<div class="text-red li-senza-pallino">
+				{{ form_errors(form.Pin) }}
 			</div>
 		</div>
 	</div>

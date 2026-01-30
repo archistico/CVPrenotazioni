@@ -58,6 +58,8 @@ class Prenotazione
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Note = null;
 
+    private ?string $Pin = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -215,6 +217,18 @@ class Prenotazione
     public function setNote(?string $Note): static
     {
         $this->Note = $Note;
+
+        return $this;
+    }
+
+    public function getPin(): ?string
+    {
+        return $this->Pin;
+    }
+
+    public function setPin(?string $Pin): static
+    {
+        $this->Pin = $Pin;
 
         return $this;
     }

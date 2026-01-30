@@ -4,27 +4,41 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Security\PinHasher;
 
 class AppFixtures extends Fixture
 {
+
+    public function __construct(
+        private PinHasher $pinHasher
+    ) {}
+
+
     public function load(ObjectManager $manager): void
     {
         // Porteur
         $porteur1 = new \App\Entity\Porteur();
         $porteur1->setDescrizione("Porteur 1");
-        $porteur1->setPIN("1111");
+        $porteur1->setPIN(
+            $this->pinHasher->hash("1111")
+        );
         $porteur1->setObsoleto(false);
         $manager->persist($porteur1);
 
         $porteur2 = new \App\Entity\Porteur();
         $porteur2->setDescrizione("Porteur 2");
-        $porteur2->setPIN("2222");
+        $porteur2->setPIN(
+            $this->pinHasher->hash("2222")
+        );
         $porteur2->setObsoleto(false);
         $manager->persist($porteur2);
 
         $porteur3 = new \App\Entity\Porteur();
         $porteur3->setDescrizione("Porteur 3");
-        $porteur3->setPIN("3333");
+        $porteur3->setPIN(
+            $this->pinHasher->hash("3333")
+        );
         $porteur3->setObsoleto(false);
         $manager->persist($porteur3);
 
