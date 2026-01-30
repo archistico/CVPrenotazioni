@@ -109,4 +109,12 @@ class PrenotazioneSignedRequestFactory
     {
         return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
+
+    public function verify(string $payloadJson, string $signature): bool
+    {
+        $sigRaw = hash_hmac('sha256', $payloadJson, $this->agenteSecret, true);
+        $expected = $this->base64urlEncode($sigRaw);
+    
+        return hash_equals($expected, $signature);
+    }
 }

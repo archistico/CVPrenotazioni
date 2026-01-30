@@ -33,6 +33,9 @@ final class HomeController extends AbstractController
             //$prenotazioneMailer->inviaPrenotazione($elemento);
 
             $signed = $factory->create($elemento);
+            if (!$factory->verify($signed['payload_json'], $signed['signature'])) {
+                throw new \RuntimeException('Firma non valida (test).');
+            }
 
             $mailer->inviaPrenotazioneFirmata($elemento, $signed);
 
