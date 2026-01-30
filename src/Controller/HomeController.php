@@ -9,11 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\PrenotazioneMailer;
+use App\Service\PrenotazioneSignedRequestFactory;
 
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_prenotazione')]
-    public function index(Request $request, EntityManagerInterface $em, PrenotazioneMailer $prenotazioneMailer): Response
+    public function index(Request $request, EntityManagerInterface $em, PrenotazioneSignedRequestFactory $factory, PrenotazioneMailer $mailer): Response
     {
         $elemento = null;
         $form = $this->createForm(PrenotazioneType::class);
@@ -29,7 +30,11 @@ final class HomeController extends AbstractController
             $em->flush();          
 
             // invio mail (sincrono, semplice)
-            $prenotazioneMailer->inviaPrenotazione($elemento);
+            //$prenotazioneMailer->inviaPrenotazione($elemento);
+
+            $signed = $factory->create($elemento);
+
+            $mailer->inviaPrenotazioneFirmata($elemento, $signed);
 
             $this->addFlash('success', 'Prenotazione salvata e inviata via email.');
 

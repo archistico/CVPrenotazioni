@@ -9,6 +9,8 @@
 parameters:
     app.mail_from: '%env(MAIL_FROM)%'
     app.mail_to: '%env(MAIL_TO)%'
+    app.agente_secret: '%env(AGENTE_SECRET)%'
+    app.agente_id: '%env(string:AGENTE_ID)%'
 
 services:
     # default configuration for services in *this* file
@@ -32,3 +34,8 @@ services:
         arguments:
             $fromEmail: '%env(MAIL_FROM)%'
             $toEmail: '%env(MAIL_TO)%'
+    
+    App\Service\PrenotazioneSignedRequestFactory:
+        arguments:
+            $agenteSecret: '%app.agente_secret%'
+            $agenteId: '%app.agente_id%'

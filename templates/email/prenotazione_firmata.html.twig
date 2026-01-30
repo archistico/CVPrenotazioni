@@ -1,0 +1,12 @@
+<h2>Prenotazione firmata</h2>
+
+<p><b>request_id:</b> {{ request_id }}</p>
+<p><b>signature (base64url):</b> {{ signature }}</p>
+<p><b>alg:</b> {{ meta.alg }}{% if meta.agente_id %} — <b>agente_id:</b> {{ meta.agente_id }}{% endif %}</p>
+
+<p>Payload in allegato: <code>{{ ('prenotazione_' ~ request_id ~ '.json') }}</code></p>
+
+{# opzionale: includi anche il payload base64 nel body #}
+<hr>
+<p><b>payload (base64url):</b></p>
+<pre style="white-space: pre-wrap;">{{ payload_b64 }}</pre>
