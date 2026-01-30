@@ -86,6 +86,21 @@ class AppFixtures extends Fixture
         $sistemazione6->setObsoleto(false);
         $manager->persist($sistemazione6);
 
+        $sistemazione7 = new \App\Entity\TipologiaSistemazione();
+        $sistemazione7->setDescrizione("Camera singola");
+        $sistemazione7->setObsoleto(false);
+        $manager->persist($sistemazione7);
+
+        $sistemazione8 = new \App\Entity\TipologiaSistemazione();
+        $sistemazione8->setDescrizione("Camera matrimoniale");
+        $sistemazione8->setObsoleto(false);
+        $manager->persist($sistemazione8);
+
+        $sistemazione9 = new \App\Entity\TipologiaSistemazione();
+        $sistemazione9->setDescrizione("Camera tripla");
+        $sistemazione9->setObsoleto(false);
+        $manager->persist($sistemazione9);
+
         // Tariffe
         $tariffa1 = new \App\Entity\Tariffa();
         $tariffa1->setDescrizione("FULL BOARD (con SPA/EXTRA)");
