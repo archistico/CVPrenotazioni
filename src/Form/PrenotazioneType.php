@@ -58,27 +58,33 @@ class PrenotazioneType extends AbstractType
                 ]
             ])      
             ->add('PaxAdulti', IntegerType::class, [
-                'label' => 'Pax adulti', 
+                'label' => 'N° persone adulte', 
                 'required' => true,
                 'data' => 1,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'min' => 1,
+                    'max' => 9,
                 ]
             ])
             ->add('PaxBambini', IntegerType::class, [
-                'label' => 'Pax 5-14 anni', 
+                'label' => 'N° persone 5-14 anni', 
                 'required' => true,
                 'data' => 0,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'min' => 0,
+                    'max' => 9,
                 ]
             ])
             ->add('PaxAdolescenti', IntegerType::class, [
-                'label' => 'Pax >15 anni', 
+                'label' => 'N° persone >15 anni', 
                 'required' => true,
                 'data' => 0,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'min' => 0,
+                    'max' => 9,
                 ]
             ])
             ->add('fkTipologiaOspitalita', EntityType::class, [
