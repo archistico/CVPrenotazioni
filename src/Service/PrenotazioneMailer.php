@@ -23,7 +23,7 @@ class PrenotazioneMailer
             ->from(new Address($this->fromEmail, 'Prenotazioni'))
             ->to($this->toEmail)
             ->subject(sprintf(
-                'Prenotazione, %s, %s - %s',
+                'Richiesta, %s, %s - %s',
                 $p->getCliente(),
                 $p->getDal()->format('d/m/Y'),
                 $p->getAl()->format('d/m/Y')
