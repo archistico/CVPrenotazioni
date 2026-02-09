@@ -25,6 +25,7 @@ class PrenotazioneMailer
             ->subject('Prenotazione firmata - ' . $signed['request_id'])
             ->htmlTemplate('email/prenotazione_firmata.html.twig')
             ->context([
+                'p' => $p,
                 'request_id' => $signed['request_id'],
                 'signature' => $signed['signature'],
                 'payload_b64' => $signed['payload_b64'], // opzionale mostrarlo

@@ -2,7 +2,28 @@
 
 <p><b>request_id:</b> {{ request_id }}</p>
 <p><b>signature (base64url):</b> {{ signature }}</p>
-<p><b>alg:</b> {{ meta.alg }}{% if meta.agente_id %} — <b>agente_id:</b> {{ meta.agente_id }}{% endif %}</p>
+<p><b>alg:</b> {{ meta.alg }}{% if meta.agente_id %} â€” <b>agente_id:</b> {{ meta.agente_id }}{% endif %}</p>
+
+<h3>Dati prenotazione</h3>
+<ul>
+  <li><b>Cliente:</b> {{ p.cliente }}</li>
+  <li><b>Dal:</b> {{ p.dal|date('d/m/Y') }} <b>al:</b> {{ p.al|date('d/m/Y') }}</li>
+  <li><b>Pax:</b>
+    Adulti {{ p.paxAdulti }},
+    Bambini {{ p.paxBambini }},
+    Adolescenti {{ p.paxAdolescenti }}
+  </li>
+  <li><b>Albergo:</b> {{ p.fkAlbergo.descrizione }}</li>
+  <li><b>Sistemazione:</b> {{ p.fkTipologiaSistemazione.descrizione }}</li>
+  <li><b>OspitalitÃ :</b> {{ p.fkTipologiaOspitalita.descrizione }}</li>
+  <li><b>Tariffa:</b> {{ p.fkTariffa.descrizione }}</li>
+  <li><b>Porteur:</b> {{ p.fkPorteur.descrizione }}</li>
+</ul>
+
+{% if p.note %}
+  <h3>Note</h3>
+  <p>{{ p.note|nl2br }}</p>
+{% endif %}
 
 <p>Payload in allegato: <code>{{ ('prenotazione_' ~ request_id ~ '.json') }}</code></p>
 
