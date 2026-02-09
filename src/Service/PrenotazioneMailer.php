@@ -22,7 +22,12 @@ class PrenotazioneMailer
         $email = (new TemplatedEmail())
             ->from(new Address($this->fromEmail, 'Prenotazioni'))
             ->to($this->toEmail)
-            ->subject('Prenotazione firmata - ' . $signed['request_id'])
+            ->subject(sprintf(
+                'Prenotazione, %s, %s - %s',
+                $p->getCliente(),
+                $p->getDal()->format('d/m/Y'),
+                $p->getAl()->format('d/m/Y')
+            ))
             ->htmlTemplate('email/prenotazione_firmata.html.twig')
             ->context([
                 'p' => $p,
