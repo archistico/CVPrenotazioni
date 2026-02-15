@@ -94,6 +94,75 @@ class PrenotazioneApiController extends AbstractController
         ], 201);
     }
 
+    #[Route('/porteurs', name: 'porteurs_list', methods: ['GET'])]
+    public function listPorteurs(EntityManagerInterface $em, Request $request): JsonResponse
+    {
+        $apiKey = $request->headers->get('X-API-KEY');
+        if ($apiKey !== $_ENV['API_KEY_ADMIN']) {
+            return $this->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $items = $em->getRepository(Porteur::class)->findBy([], ['id' => 'ASC']);
+        $data = array_map(static fn (Porteur $p): array => [
+            'id' => $p->getId(),
+            'descrizione' => $p->getDescrizione(),
+            'obsoleto' => $p->isObsoleto(),
+        ], $items);
+
+        return $this->json([
+            'count' => count($data),
+            'items' => $data,
+        ]);
+    }
+
+    #[Route('/porteurs/{id}', name: 'porteurs_update', methods: ['PUT', 'PATCH'])]
+    public function updatePorteur(EntityManagerInterface $em, Request $request, PinHasher $pinHasher, int $id): JsonResponse
+    {
+        $apiKey = $request->headers->get('X-API-KEY');
+        if ($apiKey !== $_ENV['API_KEY_ADMIN']) {
+            return $this->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        if (!is_array($payload)) {
+            return $this->json(['error' => 'Invalid JSON body'], 400);
+        }
+
+        /** @var Porteur|null $porteur */
+        $porteur = $em->getRepository(Porteur::class)->find($id);
+        if (!$porteur) {
+            return $this->json(['error' => 'Not found'], 404);
+        }
+
+        if (array_key_exists('descrizione', $payload)) {
+            $descrizione = trim((string) $payload['descrizione']);
+            if ($descrizione === '') {
+                return $this->json(['error' => 'Field "descrizione" cannot be empty'], 400);
+            }
+            $porteur->setDescrizione($descrizione);
+        }
+
+        if (array_key_exists('pin', $payload)) {
+            $pin = (string) $payload['pin'];
+            if ($pin === '') {
+                return $this->json(['error' => 'Field "pin" cannot be empty'], 400);
+            }
+            $porteur->setPIN($pinHasher->hash($pin));
+        }
+
+        if (array_key_exists('obsoleto', $payload)) {
+            $porteur->setObsoleto((bool) $payload['obsoleto']);
+        }
+
+        $em->flush();
+
+        return $this->json([
+            'id' => $porteur->getId(),
+            'descrizione' => $porteur->getDescrizione(),
+            'obsoleto' => $porteur->isObsoleto(),
+        ]);
+    }
+
     private function mapPrenotazione(Prenotazione $p): array
     {
         return [
