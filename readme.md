@@ -5,7 +5,7 @@ Applicazione Symfony per la gestione prenotazioni con:
 - validazione PIN del porteur
 - invio email della richiesta firmata
 - API REST in lettura per prenotazioni
-- API REST amministrativa per creazione porteur
+- API REST amministrative per gestione porteur
 
 ## Requisiti
 
@@ -69,7 +69,7 @@ Nel file `.env` sono gia presenti esempi. Le piu importanti:
 - `AGENTE_ID`
 - `PIN_PEPPER`
 - `API_KEY_CONSUMER` (API lettura prenotazioni)
-- `API_KEY_ADMIN` (API amministrative, es. creazione porteur)
+- `API_KEY_ADMIN` (API amministrative su porteur)
 
 ## Flusso Applicativo
 
@@ -232,6 +232,106 @@ Errori:
 - `400 Invalid JSON body` se il body non e JSON valido
 - `400 Fields "descrizione" and "pin" are required` se campi mancanti/vuoti
 - `401 Unauthorized` se `X-API-KEY` non valida
+
+### 4) Lista porteur (admin)
+
+- Metodo: `GET`
+- Endpoint: `/api/porteurs`
+- API key richiesta: `API_KEY_ADMIN`
+
+Risposta `200`:
+
+```json
+{
+  "count": 2,
+  "items": [
+    {"id": 1, "descrizione": "Porteur 1", "obsoleto": false},
+    {"id": 2, "descrizione": "Porteur 2", "obsoleto": true}
+  ]
+}
+```
+
+Esempio `curl`:
+
+```bash
+curl -s "http://127.0.0.1:8000/api/porteurs" \
+  -H "X-API-KEY: una_api_key_admin_lunga_random"
+```
+
+Esempio PowerShell:
+
+```powershell
+Invoke-RestMethod `
+  -Uri "http://127.0.0.1:8000/api/porteurs" `
+  -Headers @{"X-API-KEY" = "una_api_key_admin_lunga_random"}
+```
+
+Errori:
+- `401 Unauthorized` se `X-API-KEY` non valida
+
+### 5) Modifica porteur (admin)
+
+- Metodo: `PUT` oppure `PATCH`
+- Endpoint: `/api/porteurs/{id}`
+- API key richiesta: `API_KEY_ADMIN`
+- Content-Type: `application/json`
+
+Campi aggiornabili:
+- `descrizione` (stringa non vuota)
+- `pin` (stringa non vuota, hashata lato server)
+- `obsoleto` (boolean)
+
+Body JSON esempio:
+
+```json
+{
+  "descrizione": "Porteur Aggiornato",
+  "pin": "9876",
+  "obsoleto": false
+}
+```
+
+Esempio `curl`:
+
+```bash
+curl -s -X PATCH "http://127.0.0.1:8000/api/porteurs/1" \
+  -H "Content-Type: application/json" \
+  -H "X-API-KEY: una_api_key_admin_lunga_random" \
+  -d "{\"descrizione\":\"Porteur Aggiornato\",\"obsoleto\":false}"
+```
+
+Esempio PowerShell:
+
+```powershell
+$body = @{
+  descrizione = "Porteur Aggiornato"
+  obsoleto = $false
+} | ConvertTo-Json
+
+Invoke-RestMethod `
+  -Method Patch `
+  -Uri "http://127.0.0.1:8000/api/porteurs/1" `
+  -Headers @{"X-API-KEY" = "una_api_key_admin_lunga_random"} `
+  -ContentType "application/json" `
+  -Body $body
+```
+
+Risposta `200`:
+
+```json
+{
+  "id": 1,
+  "descrizione": "Porteur Aggiornato",
+  "obsoleto": false
+}
+```
+
+Errori:
+- `400 Invalid JSON body` se il body non e JSON valido
+- `400 Field "descrizione" cannot be empty` se `descrizione` presente ma vuota
+- `400 Field "pin" cannot be empty` se `pin` presente ma vuoto
+- `401 Unauthorized` se `X-API-KEY` non valida
+- `404 Not found` se ID inesistente
 
 ## Test Email SMTP
 
