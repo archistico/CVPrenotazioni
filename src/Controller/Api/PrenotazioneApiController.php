@@ -2,11 +2,13 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Porteur;
 use App\Entity\Prenotazione;
+use App\Security\PinHasher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/api', name: 'api_')]
@@ -54,6 +56,42 @@ class PrenotazioneApiController extends AbstractController
         }
 
         return $this->json($this->mapPrenotazione($p));
+    }
+
+    #[Route('/porteurs', name: 'porteurs_create', methods: ['POST'])]
+    public function createPorteur(EntityManagerInterface $em, Request $request, PinHasher $pinHasher): JsonResponse
+    {
+        $apiKey = $request->headers->get('X-API-KEY');
+        if ($apiKey !== $_ENV['API_KEY_ADMIN']) {
+            return $this->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $payload = json_decode($request->getContent(), true);
+        if (!is_array($payload)) {
+            return $this->json(['error' => 'Invalid JSON body'], 400);
+        }
+
+        $descrizione = trim((string) ($payload['descrizione'] ?? ''));
+        $pin = (string) ($payload['pin'] ?? '');
+        $obsoleto = (bool) ($payload['obsoleto'] ?? false);
+
+        if ($descrizione === '' || $pin === '') {
+            return $this->json(['error' => 'Fields "descrizione" and "pin" are required'], 400);
+        }
+
+        $porteur = new Porteur();
+        $porteur->setDescrizione($descrizione);
+        $porteur->setPIN($pinHasher->hash($pin));
+        $porteur->setObsoleto($obsoleto);
+
+        $em->persist($porteur);
+        $em->flush();
+
+        return $this->json([
+            'id' => $porteur->getId(),
+            'descrizione' => $porteur->getDescrizione(),
+            'obsoleto' => $porteur->isObsoleto(),
+        ], 201);
     }
 
     private function mapPrenotazione(Prenotazione $p): array
