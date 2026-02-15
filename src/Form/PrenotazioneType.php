@@ -8,6 +8,7 @@ use App\Entity\Prenotazione;
 use App\Entity\Tariffa;
 use App\Entity\TipologiaOspitalita;
 use App\Entity\TipologiaSistemazione;
+use App\Repository\PorteurRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,6 +30,12 @@ class PrenotazioneType extends AbstractType
                 'choice_label' => 'Descrizione',
                 'label' => 'Porteur',
                 'required' => true,
+                'query_builder' => function (PorteurRepository $repo) {
+                    return $repo->createQueryBuilder('p')
+                        ->andWhere('p.Obsoleto = :obsoleto')
+                        ->setParameter('obsoleto', false)
+                        ->orderBy('p.Descrizione', 'ASC');
+                },
                 'attr' => [
                     'class' => 'form-select',
                 ]
